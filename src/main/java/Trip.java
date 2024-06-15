@@ -1,16 +1,26 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Scanner;
 
 public class Trip implements TripInterface{
   private TripDTO trip = new TripDTO();
   private Integer days;
   private Integer people;
+  private FileManager fileManager = new FileManager();
+  private GoTravel goTravel;
 
   @Override
   public TripDTO create() {
+    List<TripDTO> trips = fileManager.readFile();
 
-    trip = new TripDTO(readName(),
+    if (trips.size() >= 3){
+      System.out.println("You can add maximum 3 trips.");
+      goTravel.go();
+    }
+
+    trip = new TripDTO(readName(trips),
         readDays(),
         readPeople(),
         readCurrency(),
@@ -43,9 +53,37 @@ public class Trip implements TripInterface{
 
   }
 
-  private String readName() {
-    System.out.println("Enter the name of the trip: ");
-    return readLine();
+  private String readName(List<TripDTO> trips) {
+    Scanner scanner = new Scanner(System.in);
+    String tripName = null;
+
+    System.out.println("Enter the unique name of the trip: ");
+
+    while (true) {
+      tripName = scanner.nextLine().trim();
+
+      if (tripName.isEmpty()) {
+        System.out.println("Trip name cannot be empty. Please enter a valid name.");
+        continue;
+      }
+
+      if (isTripNameExists(trips, tripName)) {
+        System.out.println("Trip with this name already exists. Please enter a unique name.");
+      } else {
+        break;
+      }
+    }
+
+    return tripName;
+  }
+
+  private static boolean isTripNameExists(List<TripDTO> trips, String tripName) {
+    for (TripDTO trip : trips) {
+      if (trip.getName().equals(tripName)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private int readDays() {

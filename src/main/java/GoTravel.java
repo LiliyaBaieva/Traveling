@@ -6,7 +6,9 @@ import java.util.List;
 
 public class GoTravel {
 
-  public static void runMenu() throws IOException {
+  private TripManager tripManager = new TripManager();
+
+  public void go() {
 
     for (int i = 0; i < menu().size(); ++i) {
       System.out.println("[" + (i + 1) + "] " + menu().get(i));
@@ -14,12 +16,11 @@ public class GoTravel {
 
     int choice = readChoice();
     switch (choice) {
-      case 1 -> Trip.create();
-      case 2 -> TripManager.printTrip();
-//      case 2 -> printTrips();
-      case 3 -> TripManager.editTrip();
-      case 4 -> aboutApp();
-      case 5 -> exit();
+      case 1 -> new Trip().create();
+      case 2 -> tripManager.printTrips();
+//      case 3 -> TripManager.editTrip();
+//      case 4 -> aboutApp();
+//      case 5 -> exit();
     }
 
 
@@ -36,35 +37,32 @@ public class GoTravel {
   }
 
 
-  private static int readChoice() throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  private static int readChoice() {
 
     //  Считываем выбор меню от пользователя
-
     System.out.println("-----------------------------");
     System.out.print("    Make your choice: ");
-    int readedChoice = 0;
+    int choice = 0;
     try {
-      readedChoice = Integer.parseInt(br.readLine());
+      choice = Integer.parseInt(Trip.readLine());
     } catch (IllegalArgumentException e) {
       System.out.println("Invalid input: \"" + e + "\"");
-      runMenu();
+//      go();
     }
-    if (readedChoice > 5) {
+    if (choice > 5) {
       System.out.println("Enter from 1 to 5");
-      runMenu();
+//      go();
     }
     System.out.println();
-    return readedChoice;
+    return choice;
   }
 
-  private static void aboutApp() throws IOException {
+  private static void aboutApp() {
     System.out.println("""
                         >> TRAVEL COST <<
              This program was created by a man who loves to travel.
              Designed to quickly calculate your trip and optimize your expenses.
         """);
-    runMenu();
   }
 
   private static void exit() {

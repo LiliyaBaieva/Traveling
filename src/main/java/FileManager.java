@@ -14,10 +14,8 @@ import java.util.List;
 
 public class FileManager {
 
-  private static final String SEP = ";";
-
   public void writeFile(List<TripDTO> trips){
-    File tripsFile = new File("res/trips.txt");
+    File tripsFile = new File("res/trips.csv");
 
     if (!tripsFile.exists()) {
       try{
@@ -28,55 +26,33 @@ public class FileManager {
     }
 
     try (CSVWriter writer = new CSVWriter(new FileWriter("resources/Trips.csv"))) {
-      StatefulBeanToCsv<TripDTO> beanToCsv = new StatefulBeanToCsvBuilder<TripDTO>(writer)
+      StatefulBeanToCsv<TripDTO> tripsToCsv = new StatefulBeanToCsvBuilder<TripDTO>(writer)
           .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
           .build();
 
-      beanToCsv.write(trips);
+      tripsToCsv.write(trips);
     } catch (IOException e) {
       e.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
     }
 
-//    File tripsFile = new File("res/trips.txt");
-//    FileWriter fileWriter = new FileWriter("res/trips.txt");
-//    if (!tripsFile.exists()) {
-//      tripsFile.createNewFile();
-//    }
-//    fileWriter.close();
-
   }
 
   public List<TripDTO> readFile(){
-    File tripsFile = new File("res/Trips.txt");
+    File tripsFile = new File("res/Trips.csv");
     if (!tripsFile.exists()) {
       System.out.println("File not found. Or you haven’t created more than one trip yet.");
-      GoTravel.runMenu();
     }
-    BufferedReader br = new BufferedReader(new FileReader("res/Trips.txt"));
 
-    String line = br.readLine();
-    int sep = line.indexOf(";");
-//    return line.substring(0, sep);
 
-    return new ArrayList<>();
-  }
-
-  private String parseTripToLine(TripDTO trips){
-
-    return null;
-  }
-
-  private List<TripDTO> unParseTripFromLine(String file){
-    StringReader reader = new StringReader(file);
-
-    CsvToBean<TripDTO> csvToBean = new CsvToBeanBuilder<TripDTO>(reader)
+    StringReader reader = new StringReader("res/Trips.csv");
+    CsvToBean<TripDTO> csvToTrips = new CsvToBeanBuilder<TripDTO>(reader)
         .withType(TripDTO.class)
         .withIgnoreLeadingWhiteSpace(true)
         .build();
 
-    return csvToBean.parse();
+    return csvToTrips.parse();
   }
 
 }

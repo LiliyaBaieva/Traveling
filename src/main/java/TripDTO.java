@@ -39,10 +39,11 @@ public class TripDTO {
         + "[5]  Excursions = %.2f (" + getCurrency() + ") \n"
         + "[6]  Entertainment = %.2f (" + getCurrency() + ") \n"
         + "=============================================================\n"
-        + "The amount of your trip will be: per 1 person = 444,00 (EUR)\n"
-        + "                               per company   = 1776,00 (EUR)",
+        + "The amount of your trip will be: per 1 person = %.2f (" + getCurrency() + ")\n"
+        + "                               per company   = %.2f (" + getCurrency() + ")\n"
+        + "=============================================================\n\n",
         getAccommodation(), getTransfer(), getLocalTransport(), getFood(),
-        getExcursions(), getEntertainment());
+        getExcursions(), getEntertainment(), getTotalOne(), getTotalAll());
 
   }
 
