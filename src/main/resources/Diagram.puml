@@ -1,0 +1,128 @@
+@startuml
+
+Main --> Runner
+Runner --> TripManager
+Runner --> FileManager
+TripManager --> Runner
+TripManager --> FileManager
+Trip --> FileManager
+Trip --> Runner
+Trip --> TripManager
+Calculator --> TripManager
+Trip --> TripDTO
+Trip --> TripInt
+
+class Main {
+  main();
+}
+
+class Runner{
+   - static Runner instance
+   - Runner(){}
+   + static synchronized Runner getInstance()
+   - static TripManager tripManager
+   - static FileManager fileManager
+   + void run()
+   - static List<String> menu()
+   - static int readMenuChoice()
+   - void aboutApp()
+   - static void exit()
+}
+
+class TripManager{
+  - static TripManager instance
+  - TripManager(){}
+  +static synchronized TripManager getInstance()
+  - static Runner runner
+  - static FileManager fileManager
+  - Trip tripOp
+  + void addTrip()
+  + void edit()
+  + void printAll ()
+  +void deleteTrip()
+  + List<TripDTO> printAllTripInfo
+  + List<TripDTO> printAllTripSum()
+  + static String readLine()
+  + int readChoice()
+}
+
+class Trip {
+  - TripDTO trip
+  - Integer days
+  - Integer people
+  - static FileManager fileManager
+  - static Runner runner
+  - static TripManager tripManager
+  + TripDTO create()
+  + TripDTO edit(TripDTO trip)
+  + List<TripDTO> delete(List<TripDTO> trips)
+  - String readName(List<TripDTO> trips)
+  - static boolean isTripNameExists(
+          List<TripDTO> trips, String tripName)
+  - int readDays()
+  - int readPeople()
+  - String readCurrency()
+}
+
+class TripDTO {
+
+  - String name;
+  - Integer days;
+  - Integer people;
+  - String currency;
+  - Double accommodation;
+  - Double transfer;
+  - Double localTransport;
+  - Double totalAll;
+  - Double food;
+  - Double excursions;
+  - Double entertainment;
+  - Double totalOne;
+
+  @AllArgsConstructor
+  @NoArgsConstructor
+  @Getter
+  @Setter
+
+  + String toString()
+  + String doFrame(String name)
+}
+
+interface TripInt {
+  TripDTO create();
+  TripDTO edit(TripDTO trip);
+  List<TripDTO> delete(List<TripDTO> trips);
+}
+
+
+class FileManager {
+  - static FileManager instance;
+
+  - FileManager() {}
+
+  + static synchronized FileManager getInstance()
+  + void writeFile(List<TripDTO> trips)
+  + List<TripDTO> readFile()
+  + boolean deleteFile()
+}
+
+class Calculator {
+
+  - static TripManager tripManager
+
+  + static double appartCalc(int numberPeople, int days)
+  + static double transferCalc(int numberPeople)
+  + static double localTransportCalc()
+  + static double foodCalc(int days)
+  - static double foodCalc2(int answer, int days)
+  + static double excursionCalc()
+  + static double entertainmentCalk()
+  + static double goByCar(int numberPeople)
+  + static boolean readYesNo()
+  + static Double totalOneCalc(Double accommodation,
+      Double transfer, Double localTransport, Double food,
+      Double excursions, Double entertainment)
+  public static Double totalAllCalc(Double totalOne, Integer people)
+}
+
+@enduml

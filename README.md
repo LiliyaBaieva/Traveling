@@ -13,26 +13,25 @@ Calculation of the cost of a trip per person / per company
   for a week and for how many people, to calculate the cost of food for one day))
 - [5] Average excursion price, number of excursions
 - [7] Other entertainment
-2. View the trip
+2. View all trips in general table and in table with total price
 3. Make changes to your trip
-4. About the program
-5. Exit the program
+4. Delete trip from a list of trips
+5. About the program
+6. Exit the program
 
 ## **Files**
 - Main (start the program)
-- GoTravel (Launch the main functions of the program)
+- Runner (Launch the main functions of the program)
 - TripManager - class performs the function:
 - TripManager display
-- Editing a trip (edit/delete line)
-- TripCreator (Creating a trip from the name and list of Expense expenses)
-- Appart, with the appartCalc() method
-- Transfer (travel calculation) -> transferCalc()
-- LocalTransport (local transport, optional, we will ask) localTransportCalc()
-- Food(food costs) foodCalc()
-- Excursion (excursion costs) excursionCalc()
-- Entertainment(entertainment, optional, we will ask) entertainmentCalc()
-- Expense (expense item constructor)
+- Trip class which implements interface tripInt with methods: create, edit, delete. 
+- TripDto as a model for trip.
+- Calculator class, there exist all mathematics functions and question to receive a data.
+- FileManager to manage file with trips, it helps us write file and read file, when we add trip or change
+  or delete trip.
+- Helper class Table with inner classes to make a structure date when we display a trips. 
 
-## Project flowchart
+[//]: # (## Project flowchart)
 
-![Program architecture](images/TripDiagramm.svg)
+[//]: # ()
+[//]: # (![Program architecture]&#40;images/TripDiagramm.svg&#41;)

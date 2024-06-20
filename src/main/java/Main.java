@@ -1,8 +1,7 @@
-import java.io.IOException;
-
 public class Main {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
+    Runner runner = Runner.getInstance();
 
     System.out.println();
     System.out.println("=================");
@@ -10,8 +9,7 @@ public class Main {
     System.out.println("=================");
     System.out.println();
 
-    GoTravel goTravel = new GoTravel();
-        goTravel.go();
+    runner.run();
 
   }
 }

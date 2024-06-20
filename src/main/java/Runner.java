@@ -1,26 +1,36 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GoTravel {
+public class Runner {
 
-  private TripManager tripManager = new TripManager();
+  private static Runner instance;
 
-  public void go() {
+  private Runner(){}
 
+  public static synchronized Runner getInstance() {
+    if (instance == null) {
+      instance = new Runner();
+    }
+    return instance;
+  }
+
+  private static TripManager tripManager = TripManager.getInstance();
+  private static FileManager fileManager = FileManager.getInstance();
+
+
+  public void run() {
     for (int i = 0; i < menu().size(); ++i) {
       System.out.println("[" + (i + 1) + "] " + menu().get(i));
     }
 
-    int choice = readChoice();
+    int choice = readMenuChoice();
     switch (choice) {
-      case 1 -> new Trip().create();
-      case 2 -> tripManager.printTrips();
-//      case 3 -> TripManager.editTrip();
-//      case 4 -> aboutApp();
-//      case 5 -> exit();
+      case 1 ->  tripManager.addTrip();
+      case 2 -> tripManager.printAll();
+      case 3 -> tripManager.edit();
+      case 4 -> tripManager.deleteTrip();
+      case 5 -> aboutApp();
+      case 6 -> exit();
     }
 
 
@@ -31,41 +41,44 @@ public class GoTravel {
     menu.add("Create a trip"); //1
     menu.add("View all trip");  //2
     menu.add("Edit a trip");
+    menu.add("Delete a trip");
     menu.add("About APP");
     menu.add("Quit"); //7
     return menu;
   }
 
 
-  private static int readChoice() {
+  private static int readMenuChoice() {
 
     //  Считываем выбор меню от пользователя
     System.out.println("-----------------------------");
     System.out.print("    Make your choice: ");
     int choice = 0;
     try {
-      choice = Integer.parseInt(Trip.readLine());
+      choice = Integer.parseInt(TripManager.readLine());
     } catch (IllegalArgumentException e) {
       System.out.println("Invalid input: \"" + e + "\"");
-//      go();
+      readMenuChoice();
     }
-    if (choice > 5) {
-      System.out.println("Enter from 1 to 5");
-//      go();
+    if (choice > 6) {
+      System.out.println("Enter from 1 to 6");
+      readMenuChoice();
     }
     System.out.println();
     return choice;
   }
 
-  private static void aboutApp() {
+  private void aboutApp() {
     System.out.println("""
                         >> TRAVEL COST <<
              This program was created by a man who loves to travel.
              Designed to quickly calculate your trip and optimize your expenses.
         """);
+    run();
   }
 
   private static void exit() {
+    fileManager.deleteFile();
     System.out.println("""
            We wish you a good trip! 
                   Goodbye!
