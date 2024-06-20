@@ -43,7 +43,7 @@ public class TripManager {
       choice = Integer.parseInt(readLine());
     }
     if(choice >= 1){
-      tripOp.edit(trips.get(choice)); // TODO make a sure
+      tripOp.edit(trips.get(choice));
       fileManager.writeFile(trips);
     }
 

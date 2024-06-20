@@ -15,7 +15,6 @@ public class Trip implements TripInt {
 
     if (trips.size() >= 3){
       System.out.println("You can add maximum 3 trips.");
-//      goTravel.go(); //todo
       return null;
     } else {
 
