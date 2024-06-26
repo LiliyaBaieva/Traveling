@@ -24,7 +24,14 @@ public class Calculator {
       cost = oneDay * days;
     } else {
       System.out.print("Enter the cost of accommodation per day: ");
-      cost = Double.parseDouble(tripManager.readLine()) / numberPeople * days;
+      double oneDayAll = 0.00;
+      do{
+        oneDayAll = Double.parseDouble(tripManager.readLine());
+        if(oneDayAll < 0){
+          System.out.println("Invalid input");
+        }
+      }while (oneDayAll < 0);
+      cost = oneDayAll / numberPeople * days;
     }
     return cost;
   }
@@ -41,16 +48,21 @@ public class Calculator {
         transferCalc(numberPeople);
       }
     } else {
-      System.out.println("Enter the cost of a one-way ticket: ");
       double ticket = 0.00;
-      try {
-        ticket = Double.parseDouble(tripManager.readLine());
-        return ticket;
-      } catch (NumberFormatException e) {
-        System.out.println("Invalid input format.");
-        transferCalc(numberPeople);
+      while (true) {
+        System.out.println("Enter the cost of a one-way ticket: ");
+        try {
+          ticket = Double.parseDouble(tripManager.readLine());
+          if (ticket < 0) {
+            System.out.println("Ticket cost cannot be negative. Please enter a valid number.");
+            continue;
+          }
+          break;
+        } catch (NumberFormatException e) {
+          System.out.println("Invalid input format. Please enter a valid number.");
+        }
       }
-      cost = ticket * 2;
+      cost = ticket * 2.00;
     }
     return cost;
   }

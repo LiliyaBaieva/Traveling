@@ -47,22 +47,48 @@ public class Trip implements TripInt {
 
   @Override
   public TripDTO edit(TripDTO trip) {
-    trip.toString();
-    System.out.println("Enter a number [1...6] of item you want to edit, or enter any to cancel: ");
+    System.out.println(trip.toString());
+    System.out.println("Enter a number [1...6] of item you want to edit, or enter any other to cancel: ");
     int choice = -1;
-    do {
-        choice = tripManager.readChoice();
-      }while (choice >= 0 && choice <=7);
 
-    switch (choice){
-      case 1: trip.setAccommodation(Calculator.appartCalc(trip.getPeople(), trip.getDays()));
-      case 2: trip.setTransfer(Calculator.transferCalc(trip.getPeople()));
-      case 3: trip.setLocalTransport(Calculator.localTransportCalc());
-      case 4: trip.setFood(Calculator.foodCalc(trip.getDays()));
-      case 5: trip.setExcursions(Calculator.excursionCalc());
-      case 6: trip.setEntertainment(Calculator.entertainmentCalk());
-      case 0: runner.run();
+    while (true) {
+      try {
+        choice = tripManager.readChoice();
+        if (choice < 1 || choice > 6) {
+          System.out.println("Cancelling edit operation...");
+          return trip;
+        }
+        break;
+      } catch (NumberFormatException e) {
+        System.out.println("Invalid input. Cancelling edit operation...");
+        return trip;
+      }
     }
+
+    switch (choice) {
+      case 1:
+        trip.setAccommodation(Calculator.appartCalc(trip.getPeople(), trip.getDays()));
+        break;
+      case 2:
+        trip.setTransfer(Calculator.transferCalc(trip.getPeople()));
+        break;
+      case 3:
+        trip.setLocalTransport(Calculator.localTransportCalc());
+        break;
+      case 4:
+        trip.setFood(Calculator.foodCalc(trip.getDays()));
+        break;
+      case 5:
+        trip.setExcursions(Calculator.excursionCalc());
+        break;
+      case 6:
+        trip.setEntertainment(Calculator.entertainmentCalk());
+        break;
+      default:
+        System.out.println("Invalid choice. Cancelling edit operation...");
+        return trip;
+    }
+
     trip.setTotalOne(Calculator.totalOneCalc(
         trip.getAccommodation(), trip.getTransfer(), trip.getLocalTransport(), trip.getFood(),
         trip.getExcursions(), trip.getEntertainment()
@@ -71,6 +97,7 @@ public class Trip implements TripInt {
     trip.setTotalAll(Calculator.totalAllCalc(trip.getTotalOne(), trip.getPeople()));
     return trip;
   }
+
 
   @Override
   public List<TripDTO> delete(List<TripDTO> trips) {
@@ -88,6 +115,7 @@ public class Trip implements TripInt {
 
       if (Calculator.readYesNo()){
         trips.remove(i - 1);
+        System.out.println("=== The trip was deleted successfully. ===\n");
       }
     }
     return trips;

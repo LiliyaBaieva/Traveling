@@ -1,25 +1,25 @@
 @startuml
 
-Main --> Runner
-Runner --> TripManager
-Runner --> FileManager
-TripManager --> Runner
-TripManager --> FileManager
-Trip --> FileManager
-Trip --> Runner
-Trip --> TripManager
-Calculator --> TripManager
-Trip --> TripDTO
-Trip --> TripInt
+'Main --> Runner
+'Runner --> TripManager
+'Runner --> FileManager
+'TripManager --> Runner
+'TripManager --> FileManager
+'Trip --> FileManager
+'Trip --> Runner
+'Trip --> TripManager
+'Calculator --> TripManager
+'Trip --> TripDTO
+'Trip --> TripInt
 
 class Main {
-  main();
+  main()
 }
 
 class Runner{
    - static Runner instance
    - Runner(){}
-   + static synchronized Runner getInstance()
+   + {}static} synchronized Runner getInstance()
    - static TripManager tripManager
    - static FileManager fileManager
    + void run()
@@ -88,13 +88,6 @@ class TripDTO {
   + String doFrame(String name)
 }
 
-interface TripInt {
-  TripDTO create();
-  TripDTO edit(TripDTO trip);
-  List<TripDTO> delete(List<TripDTO> trips);
-}
-
-
 class FileManager {
   - static FileManager instance;
 
@@ -104,6 +97,12 @@ class FileManager {
   + void writeFile(List<TripDTO> trips)
   + List<TripDTO> readFile()
   + boolean deleteFile()
+}
+
+interface TripInt {
+  TripDTO create();
+  TripDTO edit(TripDTO trip);
+  List<TripDTO> delete(List<TripDTO> trips);
 }
 
 class Calculator {
@@ -123,6 +122,52 @@ class Calculator {
       Double transfer, Double localTransport, Double food,
       Double excursions, Double entertainment)
   public static Double totalAllCalc(Double totalOne, Integer people)
+}
+
+class Table {
+
+  - ArrayList<String> headers
+  - Map<Integer, ArrayList<String>> rows
+  - Map<String, ArrayList<String>> column
+  -
+  - ArrayList<String> values
+  - ArrayList<String> columnValues
+  - ArrayList<Integer> spacing
+  -
+  - String horSep
+  - String verSep
+  - final String whitespace
+  - String cornerJoint
+  - Boolean BlockMultipleHeaders
+  - Boolean uppercaseHearder
+  - int index
+
+  + Table(){}
+  + void setHorizontalSeparator(char HorizontalSeparator)
+  + void setVerticalSeparator(char VerticalSeparator)
+  + void setCornerJoint(char CornerJoint)
+  + void setUppercaseHeaders(Boolean uppercaseHeader)
+  + void setHeader(String... Header)
+  + void addRow(String... Row)
+  + void printTable()
+  - void tableData()
+  - void tableHeader()
+  - void tableLine()
+  - void getMaxColumnLength()
+  - void row2column()
+}
+
+
+class ElementSizeException {
+  ElementSizeException(String msg)
+}
+
+class MultipleHeaderException {
+  MultipleHeaderException(String msg)
+}
+
+class DuplicateHeaderException {
+  DuplicateHeaderException(String msg)
 }
 
 @enduml

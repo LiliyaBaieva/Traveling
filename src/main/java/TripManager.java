@@ -29,26 +29,40 @@ public class TripManager {
   public void edit() {
     List<TripDTO> trips = printAllTripSum();
 
-    if(trips.isEmpty()){
+    if (trips.isEmpty()) {
       System.out.println("=== [ You haven’t created more than one trip yet. ] ===\n");
       runner.run();
+      return;
     }
 
     System.out.println();
 
     System.out.printf("Enter a number of trip 1-%s: \n", trips.size());
     System.out.println("To move to main menu press any button.");
+
     int choice = -1;
-    while (choice < 0 && choice > trips.size()){
-      choice = Integer.parseInt(readLine());
+    while (true) {
+      try {
+        String input = readLine();
+        choice = Integer.parseInt(input);
+        if (choice < 1 || choice > trips.size()) {
+          System.out.println("Invalid choice. Please enter a number between 1 and " + trips.size());
+          continue;
+        }
+        break;
+      } catch (NumberFormatException e) {
+        System.out.println("Returning to main menu...");
+        runner.run();
+        return;
+      }
     }
-    if(choice >= 1){
-      tripOp.edit(trips.get(choice));
-      fileManager.writeFile(trips);
-    }
+
+    tripOp.edit(trips.get(choice - 1));
+    fileManager.writeFile(trips);
 
     runner.run();
   }
+
 
   public void printAll () {
     printAllTripInfo();
@@ -170,11 +184,14 @@ public class TripManager {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     String result = null;
-    try{
-      result = br.readLine();
-    } catch (IOException e){
-      e.printStackTrace();
-    }
+    do{
+      try{
+        result = br.readLine();
+      } catch (IOException e){
+        e.printStackTrace();
+      }
+    } while (result.isEmpty());
+
     return result;
   }
 

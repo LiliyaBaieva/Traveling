@@ -83,6 +83,7 @@ public class Runner {
            We wish you a good trip! 
                   Goodbye!
         """);
+    System.exit(0);
   }
 
 
