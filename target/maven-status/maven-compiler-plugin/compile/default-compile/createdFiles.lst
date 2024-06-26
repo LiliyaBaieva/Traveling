@@ -1,0 +1,12 @@
+Trip.class
+TripManager.class
+DuplicateHeaderException.class
+FileManager.class
+TripDTO.class
+Calculator.class
+TripInt.class
+Main.class
+Table.class
+ElementSizeException.class
+MultipleHeaderException.class
+Runner.class
